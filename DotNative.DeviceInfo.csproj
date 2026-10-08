@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks
+      Condition="'$(NETCoreSdkVersion)' != '' and $([MSBuild]::VersionLessThan('$(NETCoreSdkVersion)', '10.0.100'))"
+      >net9.0</TargetFrameworks>
+    <Version>0.1.0-preview.10</Version>
+    <Authors>DotNative</Authors>
+    <Description>Optional DotNative iOS device information plugin; native code stays outside core.</Description>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IsAotCompatible>true</IsAotCompatible>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="README.md" />
+    <None Include="README.md" Pack="true" PackagePath="README.md" />
+    <None Remove="native/ios/device_info.m" />
+    <None Include="native/ios/device_info.m" Pack="true" PackagePath="native/ios/device_info.m" />
+    <None Remove="buildTransitive/DotNative.DeviceInfo.targets" />
+    <None
+      Include="buildTransitive/DotNative.DeviceInfo.targets"
+      Pack="true"
+      PackagePath="buildTransitive/DotNative.DeviceInfo.targets"
+    />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="LICENSE" />
+    <None Include="LICENSE" Pack="true" PackagePath="LICENSE" />
+    <None Remove="ORIGIN.md" />
+    <None Include="ORIGIN.md" Pack="true" PackagePath="ORIGIN.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference
+      Include="Microsoft.Extensions.DependencyInjection.Abstractions"
+      Version="9.0.16"
+    />
+  </ItemGroup>
+  <Import Project="build/PluginAuthoring.props" />
+  <Import Project="build/PluginAuthoring.targets" />
+</Project>
